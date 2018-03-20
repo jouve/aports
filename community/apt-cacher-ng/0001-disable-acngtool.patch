@@ -1,0 +1,25 @@
+From 267c7de980c3d845ed80a72a7e17e53e11f33998 Mon Sep 17 00:00:00 2001
+From: Cyril Jouve <jv.cyril@gmail.com>
+Date: Tue, 20 Mar 2018 23:14:26 +0100
+Subject: [PATCH] disable acngtool (https://bugs.alpinelinux.org/issues/8626)
+
+---
+ source/CMakeLists.txt | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/apt-cacher-ng-3.1/source/CMakeLists.txt b/apt-cacher-ng-3.1/source/CMakeLists.txt
+index 2ada50b..b30b1dc 100644
+--- a/apt-cacher-ng-3.1/source/CMakeLists.txt
++++ b/apt-cacher-ng-3.1/source/CMakeLists.txt
+@@ -9,8 +9,3 @@ TARGET_LINK_LIBRARIES(apt-cacher-ng ${BaseNetworkLibs} ${ServerLibs} ${CompLibs}
+ SET_TARGET_PROPERTIES(apt-cacher-ng PROPERTIES COMPILE_FLAGS "${ACNG_COMPFLAGS} ${ACNG_CXXFLAGS} ${CFLAGS_DAEMON} ${CFLAGS_PTHREAD}")
+ INSTALL(TARGETS apt-cacher-ng DESTINATION ${SBINDIR})
+ 
+-ADD_EXECUTABLE(acngtool acngtool.cc $<TARGET_OBJECTS:acngstuff> $<TARGET_OBJECTS:osslcompat>)
+-SET_TARGET_PROPERTIES(acngtool PROPERTIES COMPILE_FLAGS "${ACNG_COMPFLAGS} ${ACNG_CXXFLAGS} ${CFLAGS_PTHREAD}")
+-TARGET_LINK_LIBRARIES(acngtool ${BaseNetworkLibs} ${CompLibs} ${SSL_LIB_LIST} ${CMAKE_THREAD_LIBS_INIT} ${EXTRA_LIBS_ACNGTOOL})
+-INSTALL(TARGETS acngtool DESTINATION ${LIBDIR})
+-
+-- 
+2.16.1
+

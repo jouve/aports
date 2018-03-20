@@ -1,0 +1,30 @@
+# Contributor:
+# Maintainer:
+pkgname=apt-cacher-ng
+pkgver=3.1
+pkgrel=0
+pkgdesc="Apt-Cacher NG is a caching HTTP proxy intended for use with download clients of system distribution's package managers."
+url="https://alioth.debian.org/projects/apt-cacher-ng/"
+arch="all"
+license="BSD-4 ZLIB public-domain"
+depends="zlib openssl xz bzip2 fuse"
+makedepends="cmake zlib-dev openssl-dev xz-dev bzip2-dev fuse-dev"
+install=""
+subpackages="$pkgname-doc"
+source="http://deb.debian.org/debian/pool/main/a/${pkgname}/${pkgname}_${pkgver}.orig.tar.xz
+	0001-disable-acngtool.patch"
+builddir="$srcdir/"
+options="!check"
+
+build() {
+	mkdir build && cd build
+	cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ../$pkgname-$pkgver
+	make
+}
+
+package() {
+	make -C $builddir/build DESTDIR="$pkgdir" install
+}
+
+sha512sums="daebbf2fa6e140903eb6ddebcc62a4333486f2fa29a951724d316e4376b602e265094c42c9ffa5ba1f54aa93b1599d65c5c1bede39e088e9a52e4019276362fd  apt-cacher-ng_3.1.orig.tar.xz
+711e378870e68e29b9b40bcc5ca837f76e72ddb8826e7effd0e852198ebffd78229c91a128c8abfebad4b45ca43d0fb2daba9a969979e9be96d30a3970dfd4ef  0001-disable-acngtool.patch"
