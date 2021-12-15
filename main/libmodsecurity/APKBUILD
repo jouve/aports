@@ -1,0 +1,44 @@
+# Contributor:
+# Maintainer:
+pkgname=libmodsecurity
+pkgver=3.0.6
+pkgrel=0
+pkgdesc="ModSecurity is an open source, cross platform web application firewall (WAF) engine"
+url="https://github.com/SpiderLabs/ModSecurity"
+arch="all"
+license="Apache-2.0"
+depends=""
+makedepends="
+	geoip-dev
+	libxml2-dev
+	linux-headers
+	lua5.4-dev
+	pcre-dev
+	yajl-dev
+"
+checkdepends=""
+install=""
+subpackages="$pkgname-dev"
+source="https://github.com/SpiderLabs/ModSecurity/releases/download/v$pkgver/modsecurity-v$pkgver.tar.gz"
+builddir="$srcdir/modsecurity-v$pkgver"
+
+build() {
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--disable-examples
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="
+320d2b54da86976d2ac226d0f007ead5e7f15c401ec476b4e773b4ad8c43d3d6a8ea3db52a6d3abfdf5465be2c981797e63eba6d82976d365e1d11d5a226bde9  modsecurity-v3.0.6.tar.gz
+"

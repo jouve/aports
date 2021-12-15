@@ -1,0 +1,49 @@
+# Contributor:
+# Maintainer:
+pkgname="apt-cacher-ng"
+pkgver="3.7.4"
+pkgrel=0
+pkgdesc="A caching proxy"
+url="https://www.unix-ag.uni-kl.de/~bloch/acng/"
+arch="all"
+license="a"
+depends=""
+makedepends="
+	bzip2-dev
+	c-ares-dev
+	cmake
+	libevent-dev
+	openssl-dev
+	xz-dev
+	zlib-dev
+"
+install=""
+subpackages="$pkgname-doc"
+source="
+http://ftp.debian.org/debian/pool/main/a/${pkgname}/${pkgname}_${pkgver}.orig.tar.xz
+compat.patch
+"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+	mkdir -p "$builddir-build"
+	cd "$builddir-build"
+	cmake -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_PREFIX=/usr "$builddir"
+	make
+}
+
+check() {
+	cd "$builddir-build"
+	./acngtool cfgdump >/dev/null
+	./apt-cacher-ng -h
+}
+
+package() {
+	cd "$builddir-build"
+	make install DESTDIR=${pkgdir}
+}
+
+sha512sums="
+b7058b579f5760702416f40f064862a03bf8d61209a667e3f9eba3f6ea25bea3cc94c45b06679c0a31d680e60a02fe54d1f84f25b5661cd0293af09486256203  apt-cacher-ng_3.7.4.orig.tar.xz
+a13459456cebfada222923ff17e81b6ade4a2337c6d1d40aaf2f1dd0031dcb9c8a902bbcc6ce838c8e4bed51a59f18f890b9496c0a8b0ae7fe0a07e53e84a3ff  compat.patch
+"

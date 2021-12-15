@@ -1,0 +1,66 @@
+diff --git a/src/meta.h b/src/meta.h
+index a1f4080..4dbcf62 100644
+--- a/src/meta.h
++++ b/src/meta.h
+@@ -323,7 +323,7 @@ class NoCaseStringMap : public std::map<mstring, mstring, ltstring>
+ static constexpr string_view svRN = szRN;
+ static constexpr string_view svLF = "\n";
+ 
+-#if !defined(HAVE_STRLCPY) || !HAVE_STRLCPY
++#if !defined(HAVE_STRLCPY)
+ size_t strlcpy(char *tgt, const char *src, size_t tgtSize);
+ #endif
+ }
+diff --git a/src/acfg.cc b/src/acfg.cc
+index a137ac2..b193c4d 100644
+--- a/src/acfg.cc
++++ b/src/acfg.cc
+@@ -1,8 +1,8 @@
+ 
+ #include "debug.h"
+ 
+-#include "acfg.h"
+ #include "meta.h"
++#include "acfg.h"
+ #include "ahttpurl.h"
+ #include "filereader.h"
+ #include "fileio.h"
+diff --git a/src/ahttpurl.cc b/src/ahttpurl.cc
+index b8ec14a..30bc374 100644
+--- a/src/ahttpurl.cc
++++ b/src/ahttpurl.cc
+@@ -32,7 +32,7 @@ bool tHttpUrl::SetHttpUrl(cmstring &sUrlRaw, bool unescape)
+ 		bSSL=true;
+ #endif
+ 	}
+-	else if(isalnum((uint)url[0]))
++	else if(isalnum((unsigned)url[0]))
+ 		hStart=0;
+ 	else if(url[0]=='[')
+ 	{
+diff --git a/src/meta.cc b/src/meta.cc
+index 9a2053f..42eb14d 100644
+--- a/src/meta.cc
++++ b/src/meta.cc
+@@ -831,7 +831,7 @@ bool scaseequals(string_view a, string_view b)
+     return true;
+ }
+ 
+-#if !defined(HAVE_STRLCPY) || !HAVE_STRLCPY
++#if !defined(HAVE_STRLCPY)
+ size_t strlcpy(char *tgt, const char *src, size_t tgtSize)
+ {
+     auto p = src;
+diff --git a/src/meta.h b/src/meta.h
+index 4dbcf62..6659683 100644
+--- a/src/meta.h
++++ b/src/meta.h
+@@ -1,6 +1,8 @@
+ #ifndef _META_H
+ #define _META_H
+ 
++#include <sys/time.h>
++
+ #include "actypes.h"
+ #include "actemplates.h"
+ 
